@@ -11,7 +11,7 @@ function App() {
         <Switch>
           <ChatContextProvider>
           <Route exact path='/' component={Join}/>
-          <Route exact path='/inbox' component={ChatRoom}/>
+          <Route exact path='/chat' component={ChatRoom}/>
           </ChatContextProvider>
         </Switch>
     </BrowserRouter>

@@ -1,22 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import io from 'socket.io-client';
+let socket
 
 const ChatMessage = () => {
+
+	const [message, setMessage] = useState([])
+	const messagesEndRef = useRef(null)
+
+	useEffect(() => {
+		socket = io('http://localhost:4000/')
+		socket.on('chat', (information) => {
+			setMessage([...message, information])
+		})
+		messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+	}, [message])
+
+	useEffect(() => {
+		socket = io('http://localhost:4000/')
+		socket.once('welcomeChat', (information) => {
+			setMessage([...message, information])
+		})
+		messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+	}, [])
+
 	return (
 		<div>
-			<div className="message">
-				<p className="meta">Brad <span>9:12pm</span></p>
-				<p className="text">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-					repudiandae.
+			{message && message.map(msg => {
+				return (
+					<div className="message" key={msg.id}>
+						<p className="meta">{msg.name} <span>9:12pm</span></p>
+						<p className="text">
+							{msg.msg}
 						</p>
-			</div>
-			<div className="message">
-				<p className="meta">Mary <span>9:15pm</span></p>
-				<p className="text">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-					repudiandae.
-						</p>
-			</div>
+					</div>
+				)
+			})}
+
+			<div ref={messagesEndRef} />
+
 		</div>
 	);
 }

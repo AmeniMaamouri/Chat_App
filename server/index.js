@@ -4,15 +4,25 @@ const socketio = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
+const io = require('socket.io')(server);
+
+
 
 io.on('connection', socket => {
     
-    socket.emit('message', 'Welcome to the chat room')
-    socket.broadcast.emit('message', 'A user has joined the chat')
 
-    socket.on('disconnect', () => {
-        io.emit('message', 'A user has left the chat')
+    socket.emit('welcomeChat', {msg: 'Welcome to the chat', name: 'Ameni Maamouri', id:0})
+
+    socket.on('joinMessage', (name) => {
+        io.emit('chat', {msg: `${name.name} has joined the chat`, name: '', id: name.id})
+    })
+
+    socket.on('leftMessage', (name) => {
+        io.emit('chat', {msg : `${name.name} has left the chat`, name: '', id: name.id})
+    })
+
+    socket.on('chatMsg', (name) => {
+        io.emit('chat', name)
     })
 
 
