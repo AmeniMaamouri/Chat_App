@@ -1,14 +1,17 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import JoinForm from './JoinForm'
+import { ChatContext } from '../../contexts/ChatContext';
 
 const Join = () => {
+    const {name} = useContext(ChatContext);
+ 
     return (
-
-        <div class="join-container">
-            <header class="join-header">
-                <h1><i class="fas fa-smile"></i> ChatCord</h1>
+       
+        <div className="join-container">
+            <header className="join-header">
+                <h1><i className="fas fa-smile"></i> Chat</h1>
             </header>
-            <main class="join-main">
+            <main className="join-main">
 
                 <JoinForm />
 

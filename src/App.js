@@ -1,14 +1,20 @@
 import React from 'react';
 import Join from './components/join/Join';
 import ChatRoom from './components/chatRoom/ChatRoom';
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import ChatContextProvider from './contexts/ChatContext';
 
 
 function App() {
   return (
-    <div className="App">
-      {/* <Join /> */}
-      <ChatRoom />
-    </div>
+    <BrowserRouter>
+        <Switch>
+          <ChatContextProvider>
+          <Route exact path='/' component={Join}/>
+          <Route exact path='/inbox' component={ChatRoom}/>
+          </ChatContextProvider>
+        </Switch>
+    </BrowserRouter>
   );
 }
 

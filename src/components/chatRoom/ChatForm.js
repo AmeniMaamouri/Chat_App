@@ -9,9 +9,9 @@ const ChatForm = () => {
                 type="text"
                 placeholder="Enter Message"
                 required
-                autocomplete="off"
+                autoComplete="off"
             />
-            <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
+            <button className="btn"><i className="fas fa-paper-plane"></i> Send</button>
         </form>
 
 
