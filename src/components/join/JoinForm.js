@@ -1,35 +1,36 @@
-import React,{useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom'
 import { ChatContext } from '../../contexts/ChatContext';
-import io from  'socket.io-client'
-import {v1} from 'uuid'
+import io from 'socket.io-client'
+import { v1 } from 'uuid'
 let socket
 
 const JoinForm = () => {
 
-    const {setChat} = useContext(ChatContext);
+    const { setChat } = useContext(ChatContext);
     const history = useHistory()
     const [name, setName] = useState('')
     const [room, setRoom] = useState('JavaScript')
 
     socket = io('http://localhost:4000/')
     const handleChangeName = (e) => {
-     
+
         setName(e.target.value)
     }
 
     const handleChangeSelect = (e) => {
-     
+
         setRoom(e.target.value)
-        
+
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        setChat(name,room)
-       history.push('/chat')
-       socket.emit('joinMessage', {name, id: v1()})
-       socket.emit('welcomeMsg', {name , id: v1()})
+        setChat(name, room)
+        history.push('/chat')
+        socket.emit('joinMessage', { name, id: v1() })
+        socket.emit('welcomeMsg', { name, id: v1() })
+        socket.emit('userName', { name, id: v1() })
 
     }
 

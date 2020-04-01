@@ -5,20 +5,34 @@ const socketio = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-
-
+const uuidv1 = require('uuid')
+var moment = require('moment');
+let names = [];
 
 io.on('connection', socket => {
     
+    
+   
 
-    socket.emit('welcomeChat', {msg: 'Welcome to the chat', name: 'Ameni Maamouri', id:0})
+    socket.emit('welcomeChat', {msg: 'Welcome to the chat !', name: 'Ameni Maamouri', id: uuidv1, time: moment().calendar()})
 
     socket.on('joinMessage', (name) => {
-        io.emit('chat', {msg: `${name.name} has joined the chat`, name: '', id: name.id})
+        io.emit('chat', {msg: `${name.name} has joined the chat`, name: '', id: name.id, time:''})
+    })
+
+    socket.on('userName', (name) => {
+
+        names.push(name)
+       
+        io.emit('userList', names)
     })
 
     socket.on('leftMessage', (name) => {
-        io.emit('chat', {msg : `${name.name} has left the chat`, name: '', id: name.id})
+        io.emit('chat', {msg : `${name.name} has left the chat`, name: '', id: name.id, time:''})
+       const users = names.filter((user) => user.name !== name.name)
+       names = users
+         io.emit('userList', names)
+      
     })
 
     socket.on('chatMsg', (name) => {

@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import io from 'socket.io-client';
+
+let socket;
 
 const UsersList = () => {
+
+
+    const [users, setUsers] = useState([])
+
+    useEffect(() => {
+        socket = io('http://localhost:4000/')
+        socket.on('userList', (user) => {
+
+            setUsers(user)
+        })
+
+    })
+
+
     return (
         <div>
-            <li>Brad</li>
-            <li>John</li>
-            <li>Mary</li>
-            <li>Paul</li>
-            <li>Mike</li>
-
+            {users && users.map((person) => {
+                return (
+                    <li key={person.id}>{person.name}</li>
+                )
+            })}
         </div>
     );
 }

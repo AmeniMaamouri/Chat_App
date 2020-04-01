@@ -1,25 +1,26 @@
-import React,{useState,useContext} from 'react'
-import {ChatContext} from '../../contexts/ChatContext'
+import React, { useState, useContext } from 'react'
+import { ChatContext } from '../../contexts/ChatContext'
 import io from 'socket.io-client';
-import {v1} from 'uuid'
+import { v1 } from 'uuid'
+import moment from 'moment'
 let socket;
 
 const ChatForm = () => {
 
 
     const [msg, setMsg] = useState('')
-    const {name} = useContext(ChatContext)
+    const { name } = useContext(ChatContext)
 
 
     const handleClick = (e) => {
-     
+
         setMsg(e.target.value)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         socket = io('localhost:4000')
-        socket.emit('chatMsg', {msg, name, id:v1()})
+        socket.emit('chatMsg', { msg, name, id: v1(), time: moment().calendar() })
         setMsg('')
 
     }
@@ -27,7 +28,7 @@ const ChatForm = () => {
 
     return (
 
-       
+
 
         <form onSubmit={handleSubmit} id="chat-form">
             <input

@@ -7,14 +7,19 @@ const ChatContextProvider = (props) => {
 
     const [name, setName] = useState('');
     const [room, setRoom] = useState('')
+    const [users, setUsers] = useState([])
     
     const setChat = (name, room) => {
         setName(name)
         setRoom(room)
     }
 
+    const addUser = (name) => {
+        setUsers([...users, name])
+    }
+
     return ( 
-        <ChatContext.Provider value={{name, room, setChat}}>
+        <ChatContext.Provider value={{name, room, setChat, users, addUser}}>
             {props.children}
         </ChatContext.Provider>
 

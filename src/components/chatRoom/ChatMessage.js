@@ -7,8 +7,10 @@ const ChatMessage = () => {
 	const [message, setMessage] = useState([])
 	const messagesEndRef = useRef(null)
 
+	socket = io('http://localhost:4000/')
+
 	useEffect(() => {
-		socket = io('http://localhost:4000/')
+		
 		socket.on('chat', (information) => {
 			setMessage([...message, information])
 		})
@@ -16,7 +18,7 @@ const ChatMessage = () => {
 	}, [message])
 
 	useEffect(() => {
-		socket = io('http://localhost:4000/')
+		
 		socket.once('welcomeChat', (information) => {
 			setMessage([...message, information])
 		})
@@ -28,7 +30,7 @@ const ChatMessage = () => {
 			{message && message.map(msg => {
 				return (
 					<div className="message" key={msg.id}>
-						<p className="meta">{msg.name} <span>9:12pm</span></p>
+						<p className="meta">{msg.name} <span>{msg.time}</span></p>
 						<p className="text">
 							{msg.msg}
 						</p>
