@@ -1,21 +1,45 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef,useContext } from 'react';
 import io from 'socket.io-client';
+import {ChatContext} from '../../contexts/ChatContext'
 let socket
 
 const ChatMessage = () => {
 
 	const [message, setMessage] = useState([])
+	const {msgTyping, setMsgTyping, name} = useContext(ChatContext)
 	const messagesEndRef = useRef(null)
 
-	socket = io('http://localhost:4000/')
+	socket = io('http://localhost:4000')
 
 	useEffect(() => {
 		
 		socket.on('chat', (information) => {
+			setMsgTyping('')
 			setMessage([...message, information])
 		})
 		messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-	}, [message])
+	})
+
+
+
+	useEffect(() => {
+
+	socket.on('chatTyping', (msg) => {
+		if(msg.name !== name){
+			setMsgTyping(msg.msg)
+		}
+		
+	})
+
+	socket.on('clear', (msg) => {
+		
+			setMsgTyping('')
+		
+		
+	})
+
+	},[])
+	
 
 	useEffect(() => {
 		
@@ -37,9 +61,9 @@ const ChatMessage = () => {
 					</div>
 				)
 			})}
-
+				<p><em>{msgTyping && msgTyping}</em></p>
 			<div ref={messagesEndRef} />
-
+			
 		</div>
 	);
 }

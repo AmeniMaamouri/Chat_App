@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { ChatContext } from '../../contexts/ChatContext'
 import io from 'socket.io-client';
 import { v1 } from 'uuid'
@@ -10,19 +10,36 @@ const ChatForm = () => {
 
     const [msg, setMsg] = useState('')
     const { name } = useContext(ChatContext)
-
+    socket = io('localhost:4000')
 
     const handleClick = (e) => {
 
         setMsg(e.target.value)
+
+
     }
+
+    useEffect(() => {
+        if (msg === ''){
+
+            socket.emit('clear', 'clear')
+    }
+      
+    }, [msg])
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        socket = io('localhost:4000')
+       
         socket.emit('chatMsg', { msg, name, id: v1(), time: moment().calendar() })
-        setMsg('')
+        setMsg([])
+       
 
+    }
+
+    const handleKeyPress = (e) => {
+        socket.emit('typing', name)
+    
     }
 
 
@@ -30,7 +47,7 @@ const ChatForm = () => {
 
 
 
-        <form onSubmit={handleSubmit} id="chat-form">
+        <form onSubmit={handleSubmit} onKeyPress={handleKeyPress} id="chat-form">
             <input
                 onChange={handleClick}
                 id="msg"

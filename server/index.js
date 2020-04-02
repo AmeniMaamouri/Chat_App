@@ -4,20 +4,23 @@ const socketio = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = require('socket.io')(server);
+const io = socketio(server);
 const uuidv1 = require('uuid')
 var moment = require('moment');
 let names = [];
 
+
+
 io.on('connection', socket => {
     
-    
-   
 
-    socket.emit('welcomeChat', {msg: 'Welcome to the chat !', name: 'Ameni Maamouri', id: uuidv1, time: moment().calendar()})
+    io.sockets.emit('welcomeChat', {msg: 'Welcome to the chat !', name: 'Ameni Maamouri', id: uuidv1, time: moment().calendar()})
 
     socket.on('joinMessage', (name) => {
-        io.emit('chat', {msg: `${name.name} has joined the chat`, name: '', id: name.id, time:''})
+         io.emit('chat', {msg: `${name.name} has joined the chat`, name: '', id: name.id, time:''})
+     
+
+       
     })
 
     socket.on('userName', (name) => {
@@ -40,6 +43,22 @@ io.on('connection', socket => {
     })
 
 
+    socket.on('typing', (name) => {
+        
+   
+        io.emit('chatTyping', {msg: `${name} is typing a message...`, name})
+
+    })
+
+    socket.on('clear', txt => {
+        
+    
+            io.emit('clear', txt)
+    
+        })
+
 })
+
+
 
 server.listen(4000 , () => console.log('Server is running on port 4000'));

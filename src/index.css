@@ -88,6 +88,7 @@ a {
 .chat-messages {
 	padding: 30px;
 	max-height: 500px;
+	min-height: 350px;
 	overflow-y: scroll;
 }
 
@@ -129,6 +130,7 @@ a {
 /* Join Page */
 .join-container {
 	max-width: 500px;
+	
 	margin: 80px auto;
 	color: #fff;
 }
@@ -136,6 +138,7 @@ a {
 .join-header {
 	text-align: center;
 	padding: 20px;
+	height: 90px !important;
 	background: var(--dark-color-a);
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
@@ -186,4 +189,11 @@ a {
 	.chat-sidebar {
 		display: none;
 	}
+}
+em{
+	font-size: 15px;
+	color : grey;
+}
+header {
+	padding-top: 30px !important;
 }

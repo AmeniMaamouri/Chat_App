@@ -28,8 +28,7 @@ const JoinForm = () => {
         event.preventDefault()
         setChat(name, room)
         history.push('/chat')
-        socket.emit('joinMessage', { name, id: v1() })
-        socket.emit('welcomeMsg', { name, id: v1() })
+        socket.emit('joinMessage', { name, id: v1(), room })
         socket.emit('userName', { name, id: v1() })
 
     }
@@ -48,17 +47,7 @@ const JoinForm = () => {
                     required
                 />
             </div>
-            <div className="form-control">
-                <label htmlFor="room">Room</label>
-                <select onChange={handleChangeSelect} name="room" id="room">
-                    <option value="JavaScript">JavaScript</option>
-                    <option value="Python">Python</option>
-                    <option value="PHP">PHP</option>
-                    <option value="C#">C#</option>
-                    <option value="Ruby">Ruby</option>
-                    <option value="Java">Java</option>
-                </select>
-            </div>
+    
             <button type="submit" className="btn">Join Chat</button>
         </form>
 
