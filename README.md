@@ -1,6 +1,6 @@
 # Chat Application
 
-## Home Page
+
 ![GitHub Logo](https://i.imgur.com/BEwiHAl.jpg)
 
 ## Chat Page
